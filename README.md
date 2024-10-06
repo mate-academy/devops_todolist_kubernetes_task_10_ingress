@@ -44,4 +44,7 @@ Create a kubernetes manifest for a pod which will containa ToDo app container:
 1. After ingress deployment you should be able to access the app on `http://localhost` and see the app running.
 1. There should not be any requests failing with 404 status code in browser console.
 1. `README.md` should have instructuions on how to validate the changes
+
+Follow the http://localhost and check if app is running
+
 1. Create PR with your changes and attach it for validation on a platform.
