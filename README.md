@@ -45,3 +45,23 @@ Create a Kubernetes manifest for a pod that will contain a ToDo app container:
 1. There should not be any requests failing with the 404 status code in the browser console.
 1. Create the `INSTRUCTION.md` file with instructions on how to validate the changes
 1. Create PR with your changes and attach it for validation on a platform.
+
+
+## How to validate
+
+1. Apply the manifest files in the cluster
+
+    ```bash
+    sh bootstrap.sh
+    ```
+
+1. Check if all the resources are created and ready
+
+    ```bash
+    kubectl get all -n mysql
+    kubectl get all -n todoapp
+    kubectl get pod -n ingress-nginx -l app.kubernetes.io/component=controller
+    ```
+
+1. Open the browser and navigate to http://localhost
+   
