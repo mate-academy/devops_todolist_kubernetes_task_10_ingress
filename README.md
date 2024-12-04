@@ -45,3 +45,37 @@ Create a Kubernetes manifest for a pod that will contain a ToDo app container:
 1. There should not be any requests failing with the 404 status code in the browser console.
 1. Create the `INSTRUCTION.md` file with instructions on how to validate the changes
 1. Create PR with your changes and attach it for validation on a platform.
+
+## Deployment Steps
+
+1. Run the Bootstrap Script
+Execute the bootstrap.sh script to deploy the MySQL database, Todo App, and Ingress controller:
+```bash
+./bootstrap.sh
+```
+
+2. Verify the Deployment
+After running the script, ensure that all components are up and running:
+```bash
+kubectl get all -n todoapp
+kubectl get all -n mysql
+```
+
+3. Check the Ingress resource to confirm it's set up correctly:
+```bash
+kubectl get ingress -n todoapp
+```
+
+## Accessing the Application
+With the Ingress controller in place, you should be able to access the Todo App via http://localhost/ on your browser.
+
+If you're using kind, ensure that the Ingress controller is set up to expose the application on localhost.
+
+Troubleshooting
+If you encounter any issues, you can check the logs of the specific component or describe the resource for more detailed information:
+
+# Example: Checking logs of a pod
+kubectl logs todoapp -n todoapp
+
+# Example: Describing an Ingress resource
+kubectl describe ingress todoapp-ingress -n todoapp
