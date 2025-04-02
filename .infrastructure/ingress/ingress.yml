@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+ name: todoapp-ingress
+spec:
+ rules:
+ - http:
+     paths:
+     - pathType: Prefix
+       path: /
+       backend:
+         service:
+           name: kube2py-blue-service
+           port:
+             number: 80
