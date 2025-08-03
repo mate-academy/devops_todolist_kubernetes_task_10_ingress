@@ -1,8 +1,8 @@
-kind create cluster --config cluster.yml
+kind create cluster --config ./cluster.yml
 
 kubectl get nodes
 
-chmod +x bootstrap.sh
+chmod +x ./bootstrap.sh
 
 ./bootstrap.sh
 
