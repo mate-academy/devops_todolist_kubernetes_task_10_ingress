@@ -1,0 +1,28 @@
+# ./infrastructure/ingress/ingress.yml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: todo-web
+  namespace: todo
+  annotations:
+    # даємо інгресс-контролеру увімкнути RegEx у полі "path"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    # переписуємо збіглу групу (/) на той самий шлях у бекенді
+    # якщо треба завжди передавати оригінальний шлях — цей рядок можна прибрати
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: localhost
+    http:
+      paths:
+      # 1 HTTP rule → 1 path-rule
+      # RegEx, який "ловить" будь-який шлях, включно з коренем /,
+      # і передає збіглу групу $1 у бекенд (див. rewrite-target вище)
+      - path: /?(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: todo-svc     # <- назва сервісу твоєї апки
+            port:
+              number: 80       # <- порт сервісу (NodePort/ClusterIP неважливо)
