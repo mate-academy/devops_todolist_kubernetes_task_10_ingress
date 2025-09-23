@@ -7,8 +7,8 @@ annotations:
 spec:
   rules:
   - http:
-      path:
-        - pathType: Prefix
+      paths:
+        - pathType: ImplementationSpecific
           path: /(.*)
           backend:
             service:
