@@ -1,0 +1,104 @@
+apiVersion: v1
+kind: Pod
+metadata:
+ name: kube2py-blue
+ labels:
+   app: kube2py-blue
+spec:
+ containers:
+   - name: kube2py
+     image: ikulyk404/kube2py:blue
+     env:
+     - name: EXTERNAL_ENDPOINT
+       value: http://httpbin-api.mateapp.svc.cluster.local
+     - name: APP_ENV
+       value: "BLUE"
+     resources:
+       requests:
+         memory: "64Mi"
+         cpu: "30m"
+       limits:
+         memory: "64Mi"
+         cpu: "30m"
+     ports:
+     - containerPort: 8080
+     livenessProbe:
+       httpGet:
+         path: /health
+         port: 8080
+       initialDelaySeconds: 60
+       periodSeconds: 5
+     readinessProbe:
+       httpGet:
+         path: /ready
+         port: 8080
+initialDelaySeconds: 5
+       periodSeconds: 5
+
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+ name: kube2py-blue-service
+spec:
+ selector:
+   app: kube2py-blue
+ ports:
+ - port: 80
+   targetPort: 8080
+
+
+---
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+ name: kube2py-green
+ labels:
+   app: kube2py-green
+spec:
+ containers:
+   - name: kube2py
+     image: ikulyk404/kube2py:green
+     imagePullPolicy: Always
+     env:
+     - name: EXTERNAL_ENDPOINT
+       value: http://httpbin-api.mateapp.svc.cluster.local
+     - name: APP_ENV
+       value: "GREEN"
+     resources:
+       requests:
+         memory: "64Mi"
+         cpu: "30m"
+       limits:
+         memory: "64Mi"
+         cpu: "30m"
+     ports:
+     - containerPort: 8080
+     livenessProbe:
+       httpGet:
+         path: /health
+         port: 8080
+       initialDelaySeconds: 60
+       periodSeconds: 5
+readinessProbe:
+       httpGet:
+         path: /ready
+         port: 8080
+       initialDelaySeconds: 5
+       periodSeconds: 5
+
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+ name: kube2py-green-service
+spec:
+ selector:
+   app: kube2py-green
+ ports:
+ - port: 80
+   targetPort: 8080
