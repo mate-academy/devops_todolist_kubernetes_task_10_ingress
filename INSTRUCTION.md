@@ -12,6 +12,7 @@ This script will deploy the following resources: Cluster, PersistentVolume (pv.y
 ### 3. Create Ingress controller from file config:
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+kubectl -n ingress-nginx rollout status deployment/ingress-nginx-controller --timeout=120s
 kubectl apply -f ./infrastructure/ingress/ingress.yml
 ```
 ### 4. Validate that the application is running
@@ -28,3 +29,7 @@ kubectl describe pod <pod-name> -n ingress-nginx
 ```
 ### 6. Validate that ingress redirects path correctly
 Go to http://localhost to see the Django app's title page and confirm no 404 status code.
+```bash
+kubectl -n todoapp get ingress
+kubectl -n todoapp describe ingress app-ingress
+```
