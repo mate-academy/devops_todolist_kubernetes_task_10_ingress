@@ -15,5 +15,5 @@ Check the status of the pods:
 kubectl get pods -o wide -n ingress-nginx 
 kubectl describe pod <pod-name> -n ingress-nginx
 ```
-### 3. Validate that ingress redirects path correctly
+### 4. Validate that ingress redirects path correctly
 Go to http://localhost to see the Django app's title page.
