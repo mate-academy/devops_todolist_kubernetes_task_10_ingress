@@ -2,6 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
  name: app-ingress
+ namespace: todoapp
  annotations:
    nginx.ingress.kubernetes.io/rewrite-target: /$1
    nginx.ingress.kubernetes.io/use-regex: "true"
@@ -16,3 +17,4 @@ spec:
                   number: 80
             pathType: ImplementationSpecific
             path: /(.*)
+  ingressClassName: nginx
