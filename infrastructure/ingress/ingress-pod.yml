@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ingress-pod
+  namespace: todoapp
+  labels:
+    app: todoapp
+spec:
+  containers:
+    - name: todoapp
+      image: ikulyk404/kube2py:blue
+      env:
+      - name: EXTERNAL_ENDPOINT
+        value: http://httpbin-api.mateapp.svc.cluster.local
+      - name: APP_ENV
+        value: "BLUE"
+      resources:
+        requests:
+          memory: "256Mi"
+          cpu: "250m"
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+      ports:
+      - containerPort: 8080
+      livenessProbe:
+        httpGet:
+          path: /health
+          port: 8080
+        initialDelaySeconds: 60
+        periodSeconds: 5
+      readinessProbe:
+        httpGet:
+          path: /ready
+          port: 8080
+        initialDelaySeconds: 5
+        periodSeconds: 5
