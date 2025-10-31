@@ -27,7 +27,7 @@
     mkdir -p infrastructure/ingress
     ```
 
-3.  **Розгорніть Ingress-правила**, використовуючи файл `infrastructure/ingress/ingress.yml` (з виправленою анотацією `rewrite-target: /$1`).
+3.  **Розгорніть Ingress-правила**, використовуючи файл **`infrastructure/ingress/ingress.yml`** (який містить `rewrite-target: /$1`).
     ```bash
     kubectl apply -f infrastructure/ingress/ingress.yml
     ```
@@ -44,8 +44,8 @@ kubectl get pods -o wide
 kubectl get ingress
 # Очікуваний результат: Ingress "todoapp-ingress" має бути створений.
 
-### Перевірка Доступу через Ingress (Критерії Проходження)
-Перевірте доступ до додатка через http://localhost. Це підтвердить, що NGINX Ingress Controller коректно маршрутизує трафік.
+###Перевірка Доступу через Ingress (Критерії Проходження)
+Перевірте доступ до додатка через http://localhost.
 
 Тест Кореневого Шляху (/):
 
@@ -53,14 +53,10 @@ Bash
 
 curl http://localhost
 # Очікуваний результат: Успішна відповідь від додатка.
-Тест Дочірнього Шляху (/api/): Цей тест підтверджує, що анотація rewrite-target: /$1 працює коректно, і додаток не повертає помилку 404 для будь-яких шляхів.
+Тест Дочірнього Шляху (/api/): Цей тест підтверджує, що анотація rewrite-target: /$1 працює коректно.
 
 Bash
 
 curl http://localhost/api/
 # Очікуваний результат: Успішна відповідь від додатка (те саме повідомлення, що і для кореня).
 Критерій успіху: Додаток відповідає успішно на http://localhost та http://localhost/api/ без отримання статусу HTTP 404.
-
----
-
-**Важливо:** Не забудьте також виправити файл `.infrastructure/ingress/ingress.yml`, змінивши анотацію на **`nginx.ingress.kubernetes.io/rewrite-target: /$1`**.
