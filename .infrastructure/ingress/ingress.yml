@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: todoapp-ingress
+  annotations:
+    # Обов'язкова анотація для використання RegEx у полі 'path'
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    
+    # Переписує шлях, видаляючи префікс Ingress і передаючи бекенду лише фактичний шлях
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+  - http:
+      paths:
+      # pathType: ImplementationSpecific потрібен, оскільки використовується RegEx
+      - pathType: ImplementationSpecific
+        # RegEx, що захоплює весь шлях, включаючи корінь (/), як змінну $2
+        path: /?(.*) 
+        backend:
+          service:
+            name: todoapp-service
+            port:
+              number: 80
