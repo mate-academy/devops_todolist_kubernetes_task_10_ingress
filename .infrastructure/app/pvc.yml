@@ -7,7 +7,7 @@ spec:
   storageClassName: standard
   volumeName: pv-data
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
