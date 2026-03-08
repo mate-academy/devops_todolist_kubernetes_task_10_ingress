@@ -102,17 +102,6 @@ mysql
 todoapp
 ingress-nginx
 ```
-
----
-
-# 5. Create Ingress Resource
-
-Apply ingress configuration:
-
-```
-kubectl apply -f .infrastructure/Ingress/ingress.yml
-```
-
 Verify ingress:
 
 ```
@@ -139,46 +128,15 @@ todoapp-service    10.x.x.x:8080
 
 # 7. Access Application
 
-Since KIND runs inside Docker, the easiest way to access the application is using port forwarding.
 
-Run:
-
-```
-kubectl port-forward -n ingress-nginx service/ingress-nginx-controller 8080:80
-```
 
 Now open the application:
 
 ```
-http://localhost:8080
+http://localhost:80
 ```
-
-Or test with curl:
-
+curl localhost:80
 ```
-curl localhost:8080
-```
-
----
-
-# Architecture
-
-```
-Browser
-   ↓
-localhost:8080
-   ↓
-Ingress Controller (NGINX)
-   ↓
-Ingress Rule
-   ↓
-todoapp-service
-   ↓
-todoapp pods
-   ↓
-MySQL StatefulSet
-```
-
 ---
 
 # Useful Commands
