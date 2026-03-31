@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+ name: mate-ingress
+spec:
+ rules:
+ - http:
+     paths:
+     - pathType: Prefix
+       path: /hellomates
+       backend:
+         service:
+           name: todoapp-service
+           port:
+             number: 80
+    
