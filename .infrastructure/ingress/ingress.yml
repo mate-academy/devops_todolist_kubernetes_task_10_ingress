@@ -11,7 +11,7 @@ spec:
   - http:
       paths:
       - pathType: ImplementationSpecific
-        path: "/(.*)"
+        path: /(/|$)(.*)
         backend:
           service:
             name: todoapp-service
