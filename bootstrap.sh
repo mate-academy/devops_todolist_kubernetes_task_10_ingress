@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 kubectl apply -f .infrastructure/mysql/ns.yml
 kubectl apply -f .infrastructure/mysql/configMap.yml
 kubectl apply -f .infrastructure/mysql/secret.yml
@@ -17,4 +19,14 @@ kubectl apply -f .infrastructure/app/deployment.yml
 
 # Install Ingress Controller
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
-# kubectl apply -f .infrastructure/ingress/ingress.yml
+
+# Wait for the ingress-nginx admission webhook/controller pod to be ready
+# before applying any Ingress resources, otherwise the apply below can
+# fail or the rule can silently not take effect.
+echo "Waiting for ingress-nginx controller to become ready..."
+kubectl wait --namespace ingress-nginx \
+  --for=condition=ready pod \
+  --selector=app.kubernetes.io/component=controller \
+  --timeout=180s
+
+kubectl apply -f .infrastructure/ingress/ingress.yml
