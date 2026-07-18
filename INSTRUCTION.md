@@ -14,7 +14,7 @@ new `Ingress` resource, with no failing (404) requests.
 From the repo root:
 
 ```bash
-kind create cluster --config .infrastructure/cluster.yml
+kind create cluster --config cluster.yml
 ```
 
 Confirm the cluster and nodes are up:
@@ -29,8 +29,8 @@ You should see 1 control-plane node and 2 worker nodes, all `Ready`.
 ## 2. Run the bootstrap script
 
 ```bash
-chmod +x .infrastructure/bootstrap.sh
-./.infrastructure/bootstrap.sh
+chmod +x bootstrap.sh
+./bootstrap.sh
 ```
 
 This will, in order:
@@ -109,7 +109,7 @@ kind delete cluster --name kind
 
 ## Summary of what to check for a passing validation
 
-- [ ] `kind` cluster comes up from `.infrastructure/cluster.yml` with 1 control-plane + 2 workers
+- [ ] `kind` cluster comes up from `cluster.yml` (repo root) with 1 control-plane + 2 workers
 - [ ] `bootstrap.sh` completes without errors
 - [ ] All pods in `mysql` and `todoapp` namespaces reach `Running`/`Ready`
 - [ ] `ingress-nginx-controller` pod is `Ready` before the Ingress is applied
