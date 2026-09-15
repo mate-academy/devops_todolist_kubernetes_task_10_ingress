@@ -43,7 +43,7 @@ kubectl apply -f .infrastructure/ingress/ingress.yml
 
 ```bash
 # Check ConfigMaps
-kubectl get configmap -n todo
+kubectl get configmap -n todoapp
 kubectl get configmap -n mysql
 
 # Check Secrets
