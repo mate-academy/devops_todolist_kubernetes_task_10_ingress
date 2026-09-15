@@ -50,4 +50,4 @@ nodes:
 - role: worker
   extraMounts:
     - hostPath: /tmp
-      containerPath: /data
+      containerPath: /data    
