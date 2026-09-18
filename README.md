@@ -34,7 +34,7 @@ Create a Kubernetes manifest for a pod that will contain a ToDo app container:
 1. Fork this repository.
 1. Use `kind` to spin up a cluster from a `cluster.yml` configuration file.
 1. Run `bootstrap.sh` to deploy the app to the cluster and install the ingress controller.
-1. Create an `ingress.yml` file for `Ingress` to manage ingress traffic.
+1. Create an `.infrastructure/ingress` file for `Ingress` to manage ingress traffic.
 1. `Ingress` requirement:
     1. `Ingress` file should be located in the `./infrastructure/ingress` directory
     2. `Ingress` should have 1 HTTP rule
