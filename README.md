@@ -1,47 +1,23 @@
-# Django ToDo list
+# Validation Instructions
 
-This is a to-do list web application with the basic features of most web apps, i.e., accounts/login, API, and interactive UI. To do this task, you will need:
+Follow these steps to validate the Ingress deployment for the ToDo application:
 
-- CSS | [Skeleton](http://getskeleton.com/)
-- JS  | [jQuery](https://jquery.com/)
+1. **Create the local cluster:**
+   Spin up the cluster using the provided configuration file. 
+   *Important:* Verify that your `cluster.yml` includes the `extraPortMappings` to map container port 80 to your `localhost:80` before running this command.
+   `kind create cluster --config cluster.yml`
 
-## Explore
+2. **Deploy the application and Ingress:**
+   Run the bootstrap script. This script automatically deploys all application resources, installs the NGINX Ingress controller, and applies the required ingress manifest.
+   `bash bootstrap.sh`
 
-Try it out by installing the requirements (the following commands work only with Python 3.8 and higher, due to Django 4):
+3. **Verify application access:**
+   - Open a web browser (use an Incognito/Private window to prevent automatic HTTPS redirects).
+   - Navigate to `http://localhost`.
+   - The Django ToDo application landing page should load successfully.
 
-```
-pip install -r requirements.txt
-```
-
-Create a database schema:
-
-```
-python manage.py migrate
-```
-
-And then start the server (default is http://localhost:8000):
-
-```
-python manage.py runserver
-```
-
-You can now browse the [API](http://localhost:8000/api/) or start on the [landing page](http://localhost:8000/).
-
-## Task
-
-Create a Kubernetes manifest for a pod that will contain a ToDo app container:
-
-1. Fork this repository.
-1. Use `kind` to spin up a cluster from a `cluster.yml` configuration file.
-1. Run `bootstrap.sh` to deploy the app to the cluster and install the ingress controller.
-1. Create an `.infrastructure/ingress` file for `Ingress` to manage ingress traffic.
-1. `Ingress` requirement:
-    1. `Ingress` file should be located in the `./infrastructure/ingress` directory
-    2. `Ingress` should have 1 HTTP rule
-    3. `Ingress` should have 1 path-based rule
-    4. The rule should route traffic to the app on the `/` path
-    5. Rule should capture the path and forward it to the app. `path: {your_regex}`
-1. After ingress deployment you should be able to access the app on `http://localhost` and see the app running.
-1. There should not be any requests failing with the 404 status code in the browser console.
-1. Create the `INSTRUCTION.md` file with instructions on how to validate the changes
-1. Create PR with your changes and attach it for validation on a platform.
+4. **Verify path-based routing (No 404 Errors):**
+   - Open the browser's Developer Tools (press F12).
+   - Navigate to the "Console" or "Network" tab and refresh the page (F5).
+   - Confirm there are no 404 (Not Found) errors. 
+   - *Technical Note:* The Ingress is configured with the regular expression `/(/|$)(.*)` (enabled via the `use-regex: "true"` annotation). This properly captures the root path and forwards all subsequent traffic, including static assets like CSS and JS, to the `todoapp-service` on port 80.
