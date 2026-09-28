@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1 
+kind: Ingress
+metadata:
+  namespace: todoapp
+  name: kube2py-ingress
+  labels:
+    app: todoapp
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /(.*) 
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: todoapp-service
+            port:
+              number: 80
