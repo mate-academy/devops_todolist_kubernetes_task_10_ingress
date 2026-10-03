@@ -18,3 +18,9 @@ kubectl apply -f .infrastructure/app/deployment.yml
 # Install Ingress Controller
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
 # kubectl apply -f .infrastructure/ingress/ingress.yml
+
+sleep 15
+
+kubectl apply -f .infrastructure/ingress/ingress.yml
+
+echo "Deployment complete! App will be available at http://localhost"
