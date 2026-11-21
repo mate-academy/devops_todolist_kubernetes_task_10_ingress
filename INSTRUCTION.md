@@ -1,41 +1,46 @@
-# How to validate the changes
+How to validate the changes
 
-# Create the kind cluster
-# From the repository root, run:
+Create the kind cluster
+From the repository root, run:
+
 kind create cluster --config cluster.yml
-## Expected result:
-# Set kubectl context to "kind-kind"
-# You can now use your cluster with:
-# kubectl cluster-info --context kind-kind
 
-# Deploy the application
-# Run:
+Expected result:
+Set kubectl context to "kind-kind"
+You can now use your cluster with:
+kubectl cluster-info --context kind-kind
+
+Deploy the application
+Run:
+
 ./bootstrap.sh
-# End of every line must be created of patched
-# In case of error start ./bootstrap.sh again
 
-# Check all pods:
+If deployment fails
+Check the status of the resources:
+
 kubectl get pods -A
-## Expected result:
-# MySQL pods have status 1/1 Running;
-# the todoapp pods has status 1/1 Running;
-# the ingress-nginx-controller pod has status 1/1 Running;
-# there are no pods in CrashLoopBackOff or Error.
+kubectl get events -A --sort-by=.lastTimestamp
 
-# Check the Ingress resource
-# Run:
+For a failed application pod, inspect its description and logs:
+
+kubectl describe pod -n todoapp <pod-name>
+kubectl logs -n todoapp <pod-name> --previous
+
+For Ingress problems, check:
+
 kubectl get ingress -n todoapp
-kubectl describe ingress -n todoapp
-## Expected result:
-# Ingress class is nginx;
-# the rule uses path /;
-# the backend is todoapp-service:80;
-# the backend has application endpoints.
+kubectl describe ingress -n todoapp todoapp-ingress
+kubectl logs -n ingress-nginx deployment/ingress-nginx-controller
 
-# Check access through Ingress
-# Run:
+Fix the reported problem and run the failed deployment command again.
+
+Check for 404 responses
+Open `http://localhost/` in a browser.
+Open Developer Tools with `F12`, select the **Network** tab, reload the page, and check that requests for the page and its assets do not have status `404`.
+You can also check the main response from the terminal:
+
 curl -I http://localhost/
-## Expected result:
-# HTTP/1.1 200 OK
-# The application should also be available in a browser at:
-# http://localhost/
+
+Expected result:
+HTTP/1.1 200 OK
+There should be no failed requests with status 404 in the browser Network tab.
