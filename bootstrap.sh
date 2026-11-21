@@ -18,4 +18,20 @@ kubectl apply -f .infrastructure/app/deployment.yml
 
 # Install Ingress Controller
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
-kubectl apply -f .infrastructure/ingress/ingress.yml
+# Patch to avoid creating ingress-nginx-controller on worker node
+kubectl patch deployment ingress-nginx-controller \
+  -n ingress-nginx \
+  --type='merge' \
+  -p '{"spec":{"template":{"spec":{"nodeSelector":{"kubernetes.io/os":"linux","ingress-ready":"true"}}}}}'
+# Waiting for ingress-controller readiness
+kubectl rollout status deployment/ingress-nginx-controller \
+  -n ingress-nginx \
+  --timeout=180s
+until kubectl get endpoints ingress-nginx-controller-admission \
+  -n ingress-nginx \
+  -o jsonpath='{.subsets[*].addresses[*].ip}' | grep -q .; do
+  echo "Waiting for admission webhook..."
+  sleep 5
+done
+
+kubectl apply -f infrastructure/ingress/ingress.yml
