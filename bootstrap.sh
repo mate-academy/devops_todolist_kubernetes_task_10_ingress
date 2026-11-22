@@ -17,4 +17,15 @@ kubectl apply -f .infrastructure/app/deployment.yml
 
 # Install Ingress Controller
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
-# kubectl apply -f .infrastructure/ingress/ingress.yml
+
+# Schedule the controller on the node mapped to localhost
+kubectl patch deployment ingress-nginx-controller \
+  --namespace ingress-nginx \
+  --type=merge \
+  --patch '{"spec":{"template":{"spec":{"nodeSelector":{"ingress-ready":"true"}}}}}'
+
+kubectl rollout status deployment/ingress-nginx-controller \
+  --namespace ingress-nginx \
+  --timeout=120s
+  
+kubectl apply -f .infrastructure/ingress/ingress.yml -n todoapp
