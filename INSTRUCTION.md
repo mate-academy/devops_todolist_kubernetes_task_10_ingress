@@ -18,7 +18,7 @@ kubectl get pods -n ingress-nginx -o wide
 
 #### Apply the completed Ingress manifest:
 ```bash
-kubectl apply -n todoapp -f .infrastructure/ingress/ingress.yml
+kubectl apply -f .infrastructure/ingress/ingress.yml -n todoapp
 ```
 
 ####  Check the Ingress and app endpoints:
