@@ -28,4 +28,4 @@ kubectl rollout status deployment/ingress-nginx-controller \
   --namespace ingress-nginx \
   --timeout=120s
   
-# kubectl apply -f .infrastructure/ingress/ingress.yml
+kubectl apply -f .infrastructure/ingress/ingress.yml
