@@ -22,7 +22,7 @@ The "Ready" status is expected for all pod groups.
 
 Next, you need to generate the ingress manifest for the ToDo app by running the following command:
 ```
-kubectl apply -f .infrastructure/ingress/ingress.yml
+kubectl apply -f ./infrastructure/ingress/ingress.yml
 ```
 
 If the deployment is successful, opening the page http://localhost in a browser should redirect to the production application. There should be no requests with a 404 status.
