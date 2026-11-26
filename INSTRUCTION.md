@@ -15,7 +15,7 @@
 bash bootstrap.sh
 ```
 
-The script takes a few minutes. It creates the kind cluster (3 nodes, ports 80 and 443 are mapped to the control-plane node), applies the MySQL and app manifests, installs the ingress-nginx controller for kind, waits until it is ready, pins it to the control-plane node (label `ingress-ready=true`), waits 20 seconds for the admission webhook and then applies `.infrastructure/ingress/ingress.yml`.
+The script takes a few minutes. It creates the kind cluster (3 nodes, ports 80 and 443 are mapped to the control-plane node), applies the MySQL and app manifests, installs the ingress-nginx controller for kind, waits until it is ready, pins it to the control-plane node (label `ingress-ready=true`), waits 20 seconds for the admission webhook and then applies `./infrastructure/ingress/ingress.yml`.
 
 ## How to validate
 

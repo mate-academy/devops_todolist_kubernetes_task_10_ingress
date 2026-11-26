@@ -22,4 +22,4 @@ kubectl wait --namespace ingress-nginx --for=condition=ready pod --selector=app.
 kubectl patch deployment ingress-nginx-controller -n ingress-nginx --type=merge -p '{"spec":{"template":{"spec":{"nodeSelector":{"ingress-ready":"true"},"tolerations":[{"key":"node-role.kubernetes.io/control-plane","operator":"Equal","effect":"NoSchedule"}]}}}}'
 kubectl rollout status deployment/ingress-nginx-controller -n ingress-nginx --timeout=180s
 sleep 20
-kubectl apply -f .infrastructure/ingress/ingress.yml
+kubectl apply -f ./infrastructure/ingress/ingress.yml
